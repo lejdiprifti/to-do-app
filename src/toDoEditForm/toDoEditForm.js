@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Form, Button} from 'react-bootstrap'
-import ToDoObject from '../model/toDoObject'
 import './toDoEditForm.css'
 import {withRouter} from 'react-router-dom'
 
@@ -12,9 +11,11 @@ class ToDoEditForm extends Component {
             title: null,
             description: null
         }
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSave = this.handleSave.bind(this)
         this.setTitle = this.setTitle.bind(this)
         this.setDescription = this.setDescription.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
+        this.handleDone = this.handleDone.bind(this)
         this.inputTitle = React.createRef()
         this.inputDesc = React.createRef()
     }
@@ -26,30 +27,47 @@ class ToDoEditForm extends Component {
 
     render() {
         return <>
-        <Form onSubmit={this.handleSubmit}>
+        <Form autoComplete='off' onSubmit={this.handleSave}>
             <Form.Group controlId="formTitle">
                 <Form.Label>Title</Form.Label>
-                <Form.Control type="text" placeholder="Enter title" ref={this.inputTitle} onKeyUp={this.setTitle}/>
+                <Form.Control required type="text" placeholder="Enter title" ref={this.inputTitle} onKeyUp={this.setTitle}/>
             </Form.Group>
             <Form.Group controlId="formDescription">
                 <Form.Label>Description</Form.Label>
-                <Form.Control type="text" placeholder="Description"  ref={this.inputDesc} onKeyUp={this.setDescription} />
+                <Form.Control as="textarea" rows={3} placeholder="Description" required ref={this.inputDesc} onKeyUp={this.setDescription} />
                 <Form.Text className="text-muted">
                     Describe your to-do in more details.
                 </Form.Text>
             </Form.Group>
             <Button id="submit" variant="primary" type="submit">
-                Submit
+                Save
+            </Button>
+            <Button id="markDone" variant="success" type="button" onClick={this.handleDone}>
+                Mark as done
+            </Button>
+            <Button id="delete" variant="danger" type="button" onClick={this.handleDelete}>
+                Delete
             </Button>
         </Form>
         </>
     }
 
-    handleSubmit(event) {
+    handleSave(event) {
         event.preventDefault()
         this.updateToDo()
         this.props.history.push('/')
     }
+
+    handleDelete() {
+        this.deleteToDo()
+        this.props.history.push('/')
+    }
+
+    handleDone() {
+        this.markAsDone()
+        this.props.history.push('/')
+    }
+
 
     loadToDo() {
         const id = this.props.match.params.id
@@ -57,7 +75,23 @@ class ToDoEditForm extends Component {
         if (id && toDoObject) {
             this.inputTitle.current.value = toDoObject.title
             this.inputDesc.current.value = toDoObject.description
+            this.title = toDoObject.title
+            this.description = toDoObject.description
         }
+    }
+
+    deleteToDo() {
+        this.toDos = this.toDos.filter(el => el.id != this.props.match.params.id)
+        localStorage.setItem('toDos', JSON.stringify(this.toDos))
+    }
+
+    markAsDone() {
+        this.toDos.forEach(el => {
+            if (el.id == this.props.match.params.id) {
+                el.done = true
+            }
+        })
+        localStorage.setItem('toDos', JSON.stringify(this.toDos))
     }
 
     updateToDo() {
@@ -72,7 +106,6 @@ class ToDoEditForm extends Component {
 
     setTitle(event) {
         this.title = event.target.value
-        console.log(this.input)
     }
 
     setDescription(event) {

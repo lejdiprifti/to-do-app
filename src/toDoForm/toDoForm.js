@@ -19,14 +19,14 @@ class ToDoForm extends Component {
 
     render() {
         return <>
-        <Form onSubmit={this.handleSubmit}>
+        <Form autoComplete="off" onSubmit={this.handleSubmit}>
             <Form.Group controlId="formTitle">
                 <Form.Label>Title</Form.Label>
-                <Form.Control type="text" placeholder="Enter title" onKeyUp={this.setTitle}/>
+                <Form.Control type="text" placeholder="Enter title" required onKeyUp={this.setTitle}/>
             </Form.Group>
             <Form.Group controlId="formDescription">
                 <Form.Label>Description</Form.Label>
-                <Form.Control type="text" placeholder="Description" onKeyUp={this.setDescription} />
+                <Form.Control as="textarea" rows={3} placeholder="Description" required onKeyUp={this.setDescription} />
                 <Form.Text className="text-muted">
                     Describe your to-do in more details.
                 </Form.Text>

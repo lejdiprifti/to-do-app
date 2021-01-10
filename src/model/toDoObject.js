@@ -1,8 +1,9 @@
-function ToDoObject(id, title, description) {
+function ToDoObject(id, title, description, done=false) {
     return {
         'id': id,
         'title': title,
-        'description': description
+        'description': description,
+        'done': done
     }
 }
 

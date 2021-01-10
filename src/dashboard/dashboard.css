@@ -1,3 +1,7 @@
 .link {
     margin: 2%;
 }
+
+.done {
+    text-decoration: line-through;
+}

@@ -10,7 +10,7 @@ class Dashboard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            toDos: this.sortToDos(JSON.parse(localStorage.getItem('toDos'))) || []
+            toDos: this.sortToDos(JSON.parse(localStorage.getItem('toDos') || "[]"))
         }
         this.orderedArray = []
     }
@@ -18,7 +18,7 @@ class Dashboard extends Component {
     render() {
         return <div>
             <Link to='add'><Button className="link" variant="outline-success"><FontAwesomeIcon id="addPlus" icon={faPlus} size="xs" /> Add</Button></Link>
-            <CardColumns>{this.state.toDos.map((el,idx) => <ToDo key={idx} id={el.id} title={el.title} description={el.description}/>)}</CardColumns>
+            <CardColumns>{this.state.toDos.map((el,idx) => <ToDo key={idx} done={el.done} id={el.id} title={el.title} description={el.description}/>)}</CardColumns>
         </div>
     }
 

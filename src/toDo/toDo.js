@@ -1,31 +1,45 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {Component} from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faPen } from '@fortawesome/free-solid-svg-icons'
 import './toDo.css'
 
 class ToDo extends Component {
+
+    constructor(props){
+      super(props)
+    }
+
+    componentDidMount() {
+      this.toDos = JSON.parse(localStorage.getItem('toDos') || "[]")
+    }
+
     render() {
         return <Card
-        bg='primary'
+        bg={this.props.done ? 'success':'primary'}
         text={'light'}
-        style={{ width: '18rem', marginLeft: '10%' }}
+        style={{ width: '25rem', marginLeft: '8%'}}
         className="mb-2"
       >
         <Card.Header>To-Do</Card.Header>
-        <Card.Body>
+        <Card.Body style={{textDecoration: this.props.done ? 'line-through':'none'}}>
           <Card.Title>{this.props.title}</Card.Title>
           <Card.Text>
             {this.props.description}
           </Card.Text>
         </Card.Body>
         <Card.Footer>
-            <Link id="edit" to={'edit/' + this.props.id}><FontAwesomeIcon  className="pen" icon={faPen} /></Link>
-            <FontAwesomeIcon  className="times" icon={faTimes} />
+            {this.props.done ? 
+            <i>Done</i>
+            :
+            <>
+            <Link id="edit" to={'edit/' + this.props.id}><Button><FontAwesomeIcon  className="pen" icon={faPen} /></Button></Link>
+            </>}
         </Card.Footer>
       </Card>
     }
+
 }
 
 export default ToDo;
