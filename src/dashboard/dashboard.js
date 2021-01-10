@@ -17,7 +17,7 @@ class Dashboard extends Component {
 
     render() {
         return <div>
-            <Link to='add'><Button variant="outline-success"><FontAwesomeIcon id="addPlus" icon={faPlus} size="xs" /> Add</Button></Link>
+            <Link to='add'><Button className="link" variant="outline-success"><FontAwesomeIcon id="addPlus" icon={faPlus} size="xs" /> Add</Button></Link>
             <CardColumns>{this.state.toDos.map((el,idx) => <ToDo key={idx} id={el.id} title={el.title} description={el.description}/>)}</CardColumns>
         </div>
     }

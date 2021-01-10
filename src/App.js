@@ -6,6 +6,8 @@ import {
   Route,
 } from 'react-router-dom'
 import ToDoForm from './toDoForm/toDoForm'
+import ToDoEditForm from './toDoEditForm/toDoEditForm'
+
 function App() {
   return (
     <>
@@ -15,7 +17,7 @@ function App() {
           <ToDoForm />
         </Route>
         <Route path='/edit/:id'>
-          <ToDoForm />
+          <ToDoEditForm />
         </Route>
         <Route path='/'>
           <Dashboard/>
