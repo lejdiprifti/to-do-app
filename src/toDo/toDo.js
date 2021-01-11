@@ -9,6 +9,7 @@ class ToDo extends Component {
 
     constructor(props){
       super(props)
+      this.markAsDone = this.markAsDone.bind(this)
     }
 
     componentDidMount() {
@@ -34,10 +35,23 @@ class ToDo extends Component {
             <i>Done</i>
             :
             <>
+            <Button variant="primary" type="button" onClick={this.markAsDone}>
+              <FontAwesomeIcon  className="pen" icon={faCheck} />
+            </Button>
             <Link id="edit" to={'edit/' + this.props.id}><Button><FontAwesomeIcon  className="pen" icon={faPen} /></Button></Link>
             </>}
         </Card.Footer>
       </Card>
+    }
+
+    markAsDone() {
+      this.toDos.forEach(el => {
+        if (el.id == this.props.id) {
+            el.done = true
+        }
+      })
+      localStorage.setItem('toDos', JSON.stringify(this.toDos))
+      this.props.loadToDos()
     }
 
 }

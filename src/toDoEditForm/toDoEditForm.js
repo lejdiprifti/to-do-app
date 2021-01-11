@@ -15,7 +15,6 @@ class ToDoEditForm extends Component {
         this.setTitle = this.setTitle.bind(this)
         this.setDescription = this.setDescription.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
-        this.handleDone = this.handleDone.bind(this)
         this.inputTitle = React.createRef()
         this.inputDesc = React.createRef()
     }
@@ -42,9 +41,6 @@ class ToDoEditForm extends Component {
             <Button id="submit" variant="primary" type="submit">
                 Save
             </Button>
-            <Button id="markDone" variant="success" type="button" onClick={this.handleDone}>
-                Mark as done
-            </Button>
             <Button id="delete" variant="danger" type="button" onClick={this.handleDelete}>
                 Delete
             </Button>
@@ -63,12 +59,6 @@ class ToDoEditForm extends Component {
         this.props.history.push('/')
     }
 
-    handleDone() {
-        this.markAsDone()
-        this.props.history.push('/')
-    }
-
-
     loadToDo() {
         const id = this.props.match.params.id
         const toDoObject = this.toDos.find(element => element.id == id)
@@ -82,15 +72,6 @@ class ToDoEditForm extends Component {
 
     deleteToDo() {
         this.toDos = this.toDos.filter(el => el.id != this.props.match.params.id)
-        localStorage.setItem('toDos', JSON.stringify(this.toDos))
-    }
-
-    markAsDone() {
-        this.toDos.forEach(el => {
-            if (el.id == this.props.match.params.id) {
-                el.done = true
-            }
-        })
         localStorage.setItem('toDos', JSON.stringify(this.toDos))
     }
 

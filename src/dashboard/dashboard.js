@@ -13,12 +13,13 @@ class Dashboard extends Component {
             toDos: this.sortToDos(JSON.parse(localStorage.getItem('toDos') || "[]"))
         }
         this.orderedArray = []
+        this.loadToDos = this.loadToDos.bind(this)
     }
 
     render() {
         return <div>
             <Link to='add'><Button className="link" variant="outline-success"><FontAwesomeIcon id="addPlus" icon={faPlus} size="xs" /> Add</Button></Link>
-            <CardColumns>{this.state.toDos.map((el,idx) => <ToDo key={idx} done={el.done} id={el.id} title={el.title} description={el.description}/>)}</CardColumns>
+            <CardColumns>{this.state.toDos.map((el,idx) => <ToDo key={idx} loadToDos={this.loadToDos} done={el.done} id={el.id} title={el.title} description={el.description}/>)}</CardColumns>
         </div>
     }
 
